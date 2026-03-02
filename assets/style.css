@@ -1,0 +1,23 @@
+.nav-scrolled {
+    background-color: white;
+}
+
+.nav-scrolled .nav-link {
+    color: black !important;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-11px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.animate-bounce {
+    animation: float 2s infinite;
+}
