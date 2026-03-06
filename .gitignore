@@ -1,2 +1,5 @@
 *.jpg
 *.png
+.env
+/LOGOS-COSMOS
+/LOGOS-CLIENTES
