@@ -87,6 +87,7 @@
                                 >
                             </div>
                             <button
+                                id="mobile-menu-toggle"
                                 class="lg:hidden absolute right-6 md:right-12 z-10 p-2 transition-colors duration-300 text-primary-foreground"
                                 aria-label="Toggle menu"
                             >
@@ -110,6 +111,44 @@
                         </nav>
                     </div>
                 </header>
+                <div
+                    id="mobile-menu"
+                    class="fixed inset-0 bg-background/95 backdrop-blur-sm z-40 flex items-center justify-center lg:hidden"
+                    style="display: none"
+                >
+                    <div class="flex flex-col items-center gap-8 text-center">
+                        <a
+                            href="#hero"
+                            class="text-foreground text-2xl font-medium hover:text-primary transition-colors"
+                            onclick="closeMobileMenu()"
+                            >Início</a
+                        >
+                        <a
+                            href="#sobre"
+                            class="text-foreground text-2xl font-medium hover:text-primary transition-colors"
+                            onclick="closeMobileMenu()"
+                            >Sobre</a
+                        >
+                        <a
+                            href="#servicos"
+                            class="text-foreground text-2xl font-medium hover:text-primary transition-colors"
+                            onclick="closeMobileMenu()"
+                            >Serviços</a
+                        >
+                        <a
+                            href="#portfolio"
+                            class="text-foreground text-2xl font-medium hover:text-primary transition-colors"
+                            onclick="closeMobileMenu()"
+                            >Portfólio</a
+                        >
+                        <a
+                            href="#testemunhos"
+                            class="text-foreground text-2xl font-medium hover:text-primary transition-colors"
+                            onclick="closeMobileMenu()"
+                            >Testemunhos</a
+                        >
+                    </div>
+                </div>
                 <main>
                     <section
                         id="hero"

@@ -10,6 +10,10 @@
     filter: invert(100%);
 }
 
+.nav-scrolled svg {
+    filter: invert(100%);
+}
+
 @keyframes float {
     0% {
         transform: translateY(0);
