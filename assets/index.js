@@ -118,6 +118,7 @@ function closeMobileMenu() {
             let speed = 0;
             let lastFrame = null;
             let paused = false;
+            let direction = 1; // 1 for right, -1 for left
 
             const updateRepeatWidth = () => {
                 repeatWidth = marquee.scrollWidth / 2;
@@ -143,8 +144,15 @@ function closeMobileMenu() {
                 const dt = time - lastFrame;
                 lastFrame = time;
                 if (!paused) {
-                    marquee.scrollLeft += speed * (dt / 1000);
-                    normalizeScroll();
+                    marquee.scrollLeft += speed * direction * (dt / 1000);
+                    if (marquee.scrollLeft >= repeatWidth) {
+                        direction = -1;
+                        marquee.scrollLeft =
+                            repeatWidth - (marquee.scrollLeft - repeatWidth);
+                    } else if (marquee.scrollLeft < 0) {
+                        direction = 1;
+                        marquee.scrollLeft = -marquee.scrollLeft;
+                    }
                 }
                 requestAnimationFrame(animate);
             };
