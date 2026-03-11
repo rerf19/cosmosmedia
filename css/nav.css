@@ -13,3 +13,12 @@
 .nav-scrolled svg {
     filter: invert(100%);
 }
+
+/* Logo hover zoom animation */
+.js-header a img {
+    transition: transform 0.3s ease;
+}
+
+.js-header a img:hover {
+    transform: scale(1.2);
+}

@@ -741,43 +741,55 @@
                 let currentLightboxIndex = 0;
                 let galleryImages = [];
 
-                // Wait for all gallery images to load before showing masonry
+                // Load images sequentially to prevent masonry crumbling
+                function loadImagesSequentially(images, masonry) {
+                    let index = 0;
+
+                    function loadNext() {
+                        if (index >= images.length) {
+                            // All loaded - show masonry
+                            if (masonry) masonry.classList.add("ready");
+                            return;
+                        }
+
+                        const img = images[index];
+                        if (img.complete && img.naturalHeight > 0) {
+                            index++;
+                            loadNext();
+                        } else {
+                            img.addEventListener("load", () => {
+                                index++;
+                                loadNext();
+                            });
+                            img.addEventListener("error", () => {
+                                index++;
+                                loadNext();
+                            });
+                        }
+                    }
+
+                    if (images.length === 0) {
+                        if (masonry) masonry.classList.add("ready");
+                    } else {
+                        loadNext();
+                        // Fallback: show after 5 seconds regardless
+                        setTimeout(() => {
+                            if (masonry) masonry.classList.add("ready");
+                        }, 5000);
+                    }
+                }
+
                 document.addEventListener("DOMContentLoaded", () => {
                     const masonry = document.getElementById("gallery-grid");
                     const images = masonry
-                        ? masonry.querySelectorAll("img")
+                        ? Array.from(masonry.querySelectorAll("img"))
                         : [];
-                    let loaded = 0;
-                    const total = images.length;
 
-                    const checkAllLoaded = () => {
-                        loaded++;
-                        if (loaded >= total && masonry) {
-                            masonry.classList.add("loaded");
-                        }
-                    };
+                    // Load images in order
+                    loadImagesSequentially(images, masonry);
 
-                    if (total === 0 && masonry) {
-                        masonry.classList.add("loaded");
-                    } else {
-                        images.forEach((img) => {
-                            if (img.complete) {
-                                checkAllLoaded();
-                            } else {
-                                img.addEventListener("load", checkAllLoaded);
-                                img.addEventListener("error", checkAllLoaded);
-                            }
-                        });
-                        // Fallback: show after 3 seconds regardless
-                        setTimeout(() => {
-                            if (masonry) masonry.classList.add("loaded");
-                        }, 3000);
-                    }
-
-                    // Collect all gallery images for lightbox
-                    const items =
-                        document.querySelectorAll(".gallery-item img");
-                    items.forEach((img) => {
+                    // Collect all gallery image srcs for lightbox
+                    images.forEach((img) => {
                         galleryImages.push(img.src);
                     });
                 });
