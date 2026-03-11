@@ -59,6 +59,30 @@
     height: 18px;
 }
 
+/* Back link for light/white background */
+.gallery-back-light {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+    transition: color 0.3s;
+    text-decoration: none;
+}
+
+.gallery-back-light:hover {
+    color: hsl(var(--foreground));
+}
+
+.gallery-back-light svg {
+    width: 18px;
+    height: 18px;
+}
+
 /* ===== Masonry Gallery Grid (Goodview Project style) ===== */
 .gallery-section {
     padding: 4rem 0;
@@ -81,7 +105,7 @@
 .gallery-masonry {
     column-count: 1;
     column-gap: 12px;
-    padding: 0 4%;
+    padding: 0 5%;
     margin: 0 auto;
 }
 
@@ -89,7 +113,7 @@
     .gallery-masonry {
         column-count: 2;
         column-gap: 14px;
-        padding: 0 5%;
+        padding: 0 10%;
     }
 }
 
@@ -97,7 +121,7 @@
     .gallery-masonry {
         column-count: 3;
         column-gap: 16px;
-        padding: 0 5%;
+        padding: 0 10%;
     }
 }
 
@@ -253,8 +277,8 @@
 }
 
 /* Gallery items use the .reveal system from reveal.js for scroll-triggered animations.
-   The reveal class handles opacity and transform transitions.
-   We override the transition to be slightly faster for gallery items. */
+   We override the transition to be slightly faster for gallery items.
+   Also prevent layout shift by reserving space with aspect-ratio on the container. */
 .gallery-item.reveal {
     opacity: 0;
     transform: translateY(40px);
@@ -266,4 +290,13 @@
 .gallery-item.reveal.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Prevent masonry layout shift while images load */
+.gallery-masonry {
+    visibility: hidden;
+}
+
+.gallery-masonry.loaded {
+    visibility: visible;
 }

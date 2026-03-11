@@ -34,7 +34,7 @@
             <div class="min-h-screen">
                 <!-- ===== HEADER / NAV ===== -->
                 <header
-                    class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-transparent js-header"
+                    class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-background js-header nav-scrolled"
                     style="transform: none"
                 >
                     <div class="container-padding">
@@ -48,33 +48,34 @@
                                     src="/assets/LOGOS-COSMOS/branco.png"
                                     alt="COSMOS Media"
                                     class="h-10 md:h-12 w-auto"
+                                    style="filter: invert()"
                             /></a>
                             <div class="hidden lg:flex items-center gap-10">
                                 <a
                                     href="index.html"
-                                    class="nav-link transition-colors duration-300 text-primary-foreground"
+                                    class="nav-link transition-colors duration-300 text-foreground"
                                     >Início</a
                                 ><a
                                     href="index.html#sobre"
-                                    class="nav-link transition-colors duration-300 text-primary-foreground"
+                                    class="nav-link transition-colors duration-300 text-foreground"
                                     >Sobre</a
                                 ><a
                                     href="index.html#servicos"
-                                    class="nav-link transition-colors duration-300 text-primary-foreground"
+                                    class="nav-link transition-colors duration-300 text-foreground"
                                     >Serviços</a
                                 ><a
                                     href="index.html#portfolio"
-                                    class="nav-link transition-colors duration-300 text-primary-foreground"
+                                    class="nav-link transition-colors duration-300 text-foreground"
                                     >Portfólio</a
                                 ><a
                                     href="index.html#testemunhos"
-                                    class="nav-link transition-colors duration-300 text-primary-foreground"
+                                    class="nav-link transition-colors duration-300 text-foreground"
                                     >Testemunhos</a
                                 >
                             </div>
                             <button
                                 id="mobile-menu-toggle"
-                                class="lg:hidden absolute right-6 md:right-12 z-10 p-2 transition-colors duration-300 text-primary-foreground"
+                                class="lg:hidden absolute right-6 md:right-12 z-10 p-2 transition-colors duration-300 text-foreground"
                                 aria-label="Toggle menu"
                             >
                                 <svg
@@ -139,47 +140,20 @@
                 </div>
 
                 <main>
-                    <!-- ===== GALLERY HERO ===== -->
-                    <section id="hero" class="gallery-hero">
-                        <img
-                            src="/assets/hero-bg-By-3yFXh2.jpg"
-                            alt="COSMOS Media Gallery"
-                            class="hero-bg"
-                        />
-                        <div class="hero-overlay"></div>
-                        <div class="hero-content">
-                            <a href="index.html" class="gallery-back">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="18"
-                                    height="18"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                >
-                                    <path d="m15 18-6-6 6-6"></path>
-                                </svg>
-                                Voltar
-                            </a>
-                            <p
-                                class="text-caption text-primary-foreground/80 mb-6"
-                            >
+                    <!-- ===== GALLERY HEADER ===== -->
+                    <section
+                        class="bg-background flex items-center justify-center"
+                        style="height: 60vh; min-height: 400px"
+                    >
+                        <div class="container-padding text-center">
+                            <p class="text-caption text-primary mb-6">
                                 Portfólio Fotográfico
                             </p>
                             <h1
-                                class="text-display text-primary-foreground max-w-5xl"
+                                class="text-display text-foreground max-w-5xl mx-auto"
                             >
                                 GALERIA
                             </h1>
-                            <p
-                                class="text-body text-primary-foreground/80 max-w-2xl mt-8"
-                            >
-                                Uma seleção dos nossos melhores trabalhos.
-                                Fotografia que conta histórias e cria impacto.
-                            </p>
                         </div>
                     </section>
 
@@ -767,12 +741,43 @@
                 let currentLightboxIndex = 0;
                 let galleryImages = [];
 
-                // Collect all gallery images on load
+                // Wait for all gallery images to load before showing masonry
                 document.addEventListener("DOMContentLoaded", () => {
+                    const masonry = document.getElementById("gallery-grid");
+                    const images = masonry
+                        ? masonry.querySelectorAll("img")
+                        : [];
+                    let loaded = 0;
+                    const total = images.length;
+
+                    const checkAllLoaded = () => {
+                        loaded++;
+                        if (loaded >= total && masonry) {
+                            masonry.classList.add("loaded");
+                        }
+                    };
+
+                    if (total === 0 && masonry) {
+                        masonry.classList.add("loaded");
+                    } else {
+                        images.forEach((img) => {
+                            if (img.complete) {
+                                checkAllLoaded();
+                            } else {
+                                img.addEventListener("load", checkAllLoaded);
+                                img.addEventListener("error", checkAllLoaded);
+                            }
+                        });
+                        // Fallback: show after 3 seconds regardless
+                        setTimeout(() => {
+                            if (masonry) masonry.classList.add("loaded");
+                        }, 3000);
+                    }
+
+                    // Collect all gallery images for lightbox
                     const items =
                         document.querySelectorAll(".gallery-item img");
                     items.forEach((img) => {
-                        // Use higher resolution for lightbox
                         galleryImages.push(img.src);
                     });
                 });
