@@ -1,0 +1,15 @@
+.nav-scrolled {
+    background-color: white;
+}
+
+.nav-scrolled .nav-link {
+    color: black !important;
+}
+
+.nav-scrolled img {
+    filter: invert(100%);
+}
+
+.nav-scrolled svg {
+    filter: invert(100%);
+}
