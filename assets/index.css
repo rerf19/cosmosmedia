@@ -471,10 +471,10 @@ h6 {
 /* Scroll reveal animations */
 .reveal {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(40px);
     transition:
-        opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-        transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .reveal.visible {
@@ -483,22 +483,22 @@ h6 {
 }
 
 .reveal.delay-1 {
-    transition-delay: 0.1s;
+    transition-delay: 0.15s;
 }
 .reveal.delay-2 {
-    transition-delay: 0.2s;
+    transition-delay: 0.35s;
 }
 .reveal.delay-3 {
-    transition-delay: 0.3s;
+    transition-delay: 0.55s;
 }
 .reveal.delay-4 {
-    transition-delay: 0.4s;
+    transition-delay: 0.75s;
 }
 .reveal.delay-5 {
-    transition-delay: 0.5s;
+    transition-delay: 0.95s;
 }
 .reveal.delay-6 {
-    transition-delay: 0.6s;
+    transition-delay: 1.15s;
 }
 .btn-cosmos {
     display: inline-flex;
