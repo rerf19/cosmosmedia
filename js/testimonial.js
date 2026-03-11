@@ -112,14 +112,10 @@
                 const dt = time - lastFrame;
                 lastFrame = time;
                 if (!paused) {
-                    marquee.scrollLeft += speed * direction * (dt / 1000);
-                    if (marquee.scrollLeft >= repeatWidth) {
-                        direction = -1;
-                        marquee.scrollLeft =
-                            repeatWidth - (marquee.scrollLeft - repeatWidth);
-                    } else if (marquee.scrollLeft < 0) {
-                        direction = 1;
-                        marquee.scrollLeft = -marquee.scrollLeft;
+                    marquee.scrollLeft += speed * (dt / 1000);
+                    // Seamless infinite loop: when we've scrolled past one full set, jump back
+                    if (repeatWidth > 0 && marquee.scrollLeft >= repeatWidth) {
+                        marquee.scrollLeft -= repeatWidth;
                     }
                 }
                 requestAnimationFrame(animate);
