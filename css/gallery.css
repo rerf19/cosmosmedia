@@ -3,8 +3,8 @@
 /* Hero - shorter version for inner pages */
 .gallery-hero {
     position: relative;
-    height: 60vh;
-    min-height: 400px;
+    height: 50vh;
+    min-height: 350px;
     width: 100%;
     overflow: hidden;
     display: flex;
@@ -19,15 +19,6 @@
     z-index: 1;
 }
 
-.gallery-hero img.hero-bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
-}
-
 .gallery-hero .hero-content {
     position: relative;
     z-index: 2;
@@ -35,52 +26,8 @@
     padding: 0 1.5rem;
 }
 
-/* Back link */
-.gallery-back {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: hsl(var(--primary-foreground) / 0.7);
-    font-size: 0.875rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 1.5rem;
-    transition: color 0.3s;
-    text-decoration: none;
-}
-
-.gallery-back:hover {
-    color: hsl(var(--primary-foreground));
-}
-
-.gallery-back svg {
-    width: 18px;
-    height: 18px;
-}
-
-/* Back link for light/white background */
-.gallery-back-light {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: hsl(var(--muted-foreground));
-    font-size: 0.875rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 1.5rem;
-    transition: color 0.3s;
-    text-decoration: none;
-}
-
-.gallery-back-light:hover {
-    color: hsl(var(--foreground));
-}
-
-.gallery-back-light svg {
-    width: 18px;
-    height: 18px;
+.gallery-hero h1 {
+    font-weight: 600 !important;
 }
 
 /* ===== Masonry Gallery Grid (Goodview Project style) ===== */
@@ -223,72 +170,4 @@
     font-size: 0.875rem;
     font-weight: 500;
     letter-spacing: 0.1em;
-}
-
-/* ===== Gallery info bar ===== */
-.gallery-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 2rem 1.5rem;
-    text-align: center;
-    border-bottom: 1px solid hsl(var(--border));
-    margin-bottom: 0;
-}
-
-@media (min-width: 768px) {
-    .gallery-info {
-        flex-direction: row;
-        justify-content: center;
-        gap: 3rem;
-        padding: 2rem 3rem;
-    }
-}
-
-.gallery-info-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: hsl(var(--muted-foreground));
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 500;
-}
-
-.gallery-info-item svg {
-    width: 16px;
-    height: 16px;
-    opacity: 0.6;
-}
-
-/* Gallery items use the .reveal system from reveal.js for scroll-triggered animations.
-   We override the transition to be slightly faster for gallery items.
-   Also prevent layout shift by reserving space with aspect-ratio on the container. */
-.gallery-item.reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition:
-        opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-        transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.gallery-item.reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Hide gallery items until revealed - prevents masonry crumbling */
-.gallery-item.reveal {
-    min-height: 0;
-}
-
-.gallery-item.reveal img {
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.gallery-item.reveal.visible img {
-    opacity: 1;
 }

@@ -15,10 +15,10 @@
 }
 
 /* Logo hover zoom animation */
-.js-header a img {
+header a img {
     transition: transform 0.3s ease;
 }
 
-.js-header a img:hover {
+header a img:hover {
     transform: scale(1.2);
 }
