@@ -14,10 +14,17 @@
     animation: float 2s infinite;
 }
 
-h1 {
+#hero h1 {
     font-weight: 400 !important;
 }
 
-h1 span {
+#hero h1 span {
     font-weight: bold;
+}
+
+/* Hero button hover - transparent background */
+#hero .btn-cosmos:hover {
+    background-color: transparent !important;
+    color: hsl(var(--primary-foreground)) !important;
+    border-color: hsl(var(--primary-foreground)) !important;
 }
