@@ -54,6 +54,12 @@
     column-gap: 12px;
     padding: 0 5%;
     margin: 0 auto;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.gallery-masonry.ready {
+    opacity: 1;
 }
 
 @media (min-width: 640px) {
