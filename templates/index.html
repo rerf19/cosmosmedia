@@ -1,5 +1,4 @@
 {% extends 'base.html' %} {% load static %} {% block title %}COSMOS Media | Produtora de Fotografia e Vídeo{% endblock %} {% block extra_scripts_head %}
-<script src="{% static 'js/testimonial.js' %}"></script>
 <script src="{% static 'js/reveal.js' %}"></script>
 <script src="{% static 'js/counter.js' %}"></script>
 {% endblock %} {% block content %}
@@ -213,6 +212,7 @@
 <script>
     window.djangoTestimonials = {{ testimonials_json|safe }};
 </script>
+<script src="{% static 'js/testimonial.js' %}"></script>
 <script src="{% static 'js/reveal.js' %}"></script>
 <script src="{% static 'js/counter.js' %}"></script>
 {% endblock %}
