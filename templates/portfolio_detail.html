@@ -18,21 +18,9 @@
 {% if project.video_url %}
 <section class="section-padding bg-background">
     <div class="container-padding">
-        <div class="max-w-4xl mx-auto">
+        <div class="max-w-7xl mx-auto">
             <div class="aspect-video">
-                <iframe
-                    src="{{ project.video_url }}"
-                    class="w-full h-full"
-                    allow="
-                        accelerometer;
-                        autoplay;
-                        clipboard-write;
-                        encrypted-media;
-                        gyroscope;
-                        picture-in-picture;
-                    "
-                    allowfullscreen
-                ></iframe>
+                <iframe src="{{ project.video_url }}?rel=0&modestbranding=1" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
         </div>
     </div>
