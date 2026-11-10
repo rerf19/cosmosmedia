@@ -1,27 +1,34 @@
-// Testimonial carousel
+// Testimonial carousel - supports both static data and Django-injected data
 (function () {
-    const testimonials = [
+    // Default testimonials (fallback if no Django data)
+    const defaultTestimonials = [
         {
-            text: "Sem dúvida a escolha mais acertada do profissional com quem trabalho! O José tem uma dedicação enorme e trabalhar com ele é saber que o trabalho sairá perfeito. Faz jus a todas as minhas ideias e consegue melhorá-las e concretizá-las da melhor forma. Confio a 100% no trabalho",
+            text: "Sem dúvida a escolha mais acertada do profissional com quem trabalho! O José tem uma dedicação enorme e trabalhar com ele é saber que o trabalho sairá perfeito.",
             author: "Rita Rocha",
             role: "CEO, Dulari Store",
         },
         {
-            text: "Adorei trabalhar com o José! A entrega, empatia e profissionalismo deixaram-me fã desde o primeiro contacto. Todo o serviço foi 5 estrelas e fiquei extremamente satisfeita. Foi tudo entregue rapidamente e o resultado simplesmente incrível! Com toda a certeza voltarei a trabalhar convosco.",
+            text: "Adorei trabalhar com o José! A entrega, empatia e profissionalismo deixaram-me fã desde o primeiro contacto. Todo o serviço foi 5 estrelas e fiquei extremamente satisfeita.",
             author: "Maria Monteiro",
             role: "CEO, Pura - Atelier de Beleza",
         },
         {
-            text: "Recomendo a Cosmos Media. Adapta-se ao teu projeto e/ou visão da tua marca . Ajuda-te em todo o teu processo e ideias.",
+            text: "Recomendo a Cosmos Media. Adapta-se ao teu projeto e/ou visão da tua marca. Ajuda-te em todo o teu processo e ideias.",
             author: "Domingos Castro",
             role: "CEO, Transportes Domingo Castro",
         },
         {
-            text: "O José Mário tem sido uma peça fundamental no projeto Sr. Saudável. É um profissional extremamente competente, perfecionista e comprometido com a excelência em cada detalhe. Dá-nos uma enorme segurança em todo o processo e é alguém em quem confiamos plenamente. Para além do talento técnico, destaca-se pelo companheirismo e espírito de entreajuda. Um verdadeiro profissional de referência.",
+            text: "O José Mário tem sido uma peça fundamental no projeto Sr. Saudável. É um profissional extremamente competente, perfecionista e comprometido com a excelência em cada detalhe.",
             author: "Sr.Saudável",
             role: "CEO, Rafaela Silva & Catarina Silva",
         },
     ];
+
+    // Use Django-injected testimonials if available, otherwise use defaults
+    const testimonials =
+        window.djangoTestimonials && window.djangoTestimonials.length > 0
+            ? window.djangoTestimonials
+            : defaultTestimonials;
 
     let currentIndex = 0;
 
@@ -33,7 +40,7 @@
         const roleEl = document.getElementById("testimonial-role");
         const dots = document.querySelectorAll("[data-index]");
 
-        if (textEl) textEl.textContent = `"${t.text}"`;
+        if (textEl) textEl.textContent = '"' + t.text + '"';
         if (authorEl) authorEl.textContent = t.author;
         if (roleEl) roleEl.textContent = t.role;
 
@@ -80,19 +87,15 @@
             let isDown = false;
             let startX;
             let scrollLeft;
-            // width of one repetition (half of total scrollWidth)
             let repeatWidth = 0;
-            // scrolling speed in pixels per second
             let speed = 0;
             let lastFrame = null;
             let paused = false;
-            let direction = 1; // 1 for right, -1 for left
 
             const updateRepeatWidth = () => {
                 repeatWidth = marquee.scrollWidth / 2;
-                // calculate speed so that one repeat takes 30s
                 if (repeatWidth > 0) {
-                    speed = repeatWidth / 30; // px per second
+                    speed = repeatWidth / 30;
                 }
             };
 
@@ -113,7 +116,6 @@
                 lastFrame = time;
                 if (!paused) {
                     marquee.scrollLeft += speed * (dt / 1000);
-                    // Seamless infinite loop: when we've scrolled past one full set, jump back
                     if (repeatWidth > 0 && marquee.scrollLeft >= repeatWidth) {
                         marquee.scrollLeft -= repeatWidth;
                     }
@@ -121,13 +123,11 @@
                 requestAnimationFrame(animate);
             };
 
-            // start animation loop
             updateRepeatWidth();
             window.addEventListener("resize", updateRepeatWidth);
             requestAnimationFrame(animate);
 
             marquee.addEventListener("pointerdown", (e) => {
-                // prevent default text selection/drag behavior
                 e.preventDefault();
                 isDown = true;
                 paused = true;
@@ -140,7 +140,7 @@
             marquee.addEventListener("pointermove", (e) => {
                 if (!isDown) return;
                 const x = e.clientX;
-                const walk = x - startX; // distance moved
+                const walk = x - startX;
                 marquee.scrollLeft = scrollLeft - walk;
                 normalizeScroll();
             });

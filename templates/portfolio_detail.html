@@ -1,0 +1,162 @@
+{% extends 'base.html' %} {% load static %} {% block title %}{{ project.title }} | COSMOS Media{% endblock %} {% block header_class %}bg-background nav-scrolled{% endblock %} {% block logo_style %}style="filter: invert()"{% endblock %} {% block nav_text_color %}text-foreground{% endblock %} {% block nav_text_color2 %}text-foreground{% endblock %} {% block nav_text_color3 %}text-foreground{% endblock %} {% block nav_text_color4 %}text-foreground{% endblock %} {% block nav_text_color5 %}text-foreground{% endblock %} {% block mobile_btn_color %}text-foreground{% endblock %} {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/gallery.css' %}" />
+{% endblock %} {% block extra_scripts_head %}
+<script src="{% static 'js/reveal.js' %}"></script>
+{% endblock %} {% block content %}
+<!-- ===== GALLERY HEADER ===== -->
+<section class="bg-background flex items-center justify-center gallery-hero">
+    <div class="container-padding text-center hero-content">
+        <p class="text-caption text-primary mb-6 gallery-overlay">{{ project.get_category_label }}</p>
+        <h1 class="text-display text-foreground max-w-5xl mx-auto">{{ project.title }}</h1>
+        {% if project.description %}
+        <p class="text-body text-muted-foreground max-w-2xl mx-auto mt-6">{{ project.description }}</p>
+        {% endif %}
+    </div>
+</section>
+
+<!-- ===== VIDEO (if applicable) ===== -->
+{% if project.video_url %}
+<section class="section-padding bg-background">
+    <div class="container-padding">
+        <div class="max-w-7xl mx-auto">
+            <div class="aspect-video">
+                <iframe src="{{ project.video_url }}?rel=0&modestbranding=1" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- ===== MASONRY GALLERY ===== -->
+{% if images %}
+<section class="gallery-section">
+    <div class="gallery-masonry" id="gallery-grid">
+        {% for image in images %}
+        <div class="gallery-item reveal" onclick="openLightbox({{ forloop.counter0 }})">
+            <img src="{{ image.image.url }}" alt="{% if image.alt_text %}{{ image.alt_text }}{% else %}{{ project.title }} - Foto {{ forloop.counter }}{% endif %}" loading="lazy" />
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<!-- ===== CTA SECTION ===== -->
+<section class="section-padding bg-primary">
+    <div class="container-padding">
+        <div class="max-w-6xl mx-auto text-center">
+            <div>
+                <p class="text-caption text-primary-foreground/60 mb-4">Vamos falar</p>
+                <h2 class="text-title text-primary-foreground mb-6">Vamos criar algo incrível juntos. Entre em contacto e conte-nos sobre o seu próximo projeto.</h2>
+            </div>
+            <div>
+                <a href="{{ settings.tally_form_url }}" class="btn-cosmos border border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-foreground" target="_blank">Pedir Orçamento</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} {% block extra_js %} {% if images %}
+<!-- Lightbox -->
+<div class="lightbox-overlay" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()" aria-label="Fechar">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+        </svg>
+    </button>
+    <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox(-1)" aria-label="Anterior">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 18-6-6 6-6"></path>
+        </svg>
+    </button>
+    <img id="lightbox-img" src="" alt="Gallery image" />
+    <button class="lightbox-nav lightbox-next" onclick="navigateLightbox(1)" aria-label="Próxima">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6"></path>
+        </svg>
+    </button>
+    <div class="lightbox-counter" id="lightbox-counter"></div>
+</div>
+
+<script>
+    (function () {
+        let currentLightboxIndex = 0;
+        const galleryImages = [
+            {% for image in images %}
+            "{{ image.image.url }}"{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ];
+
+        function waitForAllImages(images, masonry) {
+            if (images.length === 0) {
+                if (masonry) masonry.classList.add("ready");
+                return;
+            }
+            let loadedCount = 0;
+            const total = images.length;
+            function checkDone() {
+                loadedCount++;
+                if (loadedCount >= total) {
+                    if (masonry) masonry.classList.add("ready");
+                }
+            }
+            images.forEach((img) => {
+                if (img.complete && img.naturalHeight > 0) {
+                    checkDone();
+                } else {
+                    img.addEventListener("load", checkDone);
+                    img.addEventListener("error", checkDone);
+                }
+            });
+            setTimeout(() => {
+                if (masonry) masonry.classList.add("ready");
+            }, 8000);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const masonry = document.getElementById("gallery-grid");
+            const images = masonry ? Array.from(masonry.querySelectorAll("img")) : [];
+            waitForAllImages(images, masonry);
+        });
+
+        window.openLightbox = function (index) {
+            currentLightboxIndex = index;
+            const lightbox = document.getElementById("lightbox");
+            const img = document.getElementById("lightbox-img");
+            const counter = document.getElementById("lightbox-counter");
+            img.src = galleryImages[index];
+            counter.textContent = (index + 1) + " / " + galleryImages.length;
+            lightbox.style.display = "flex";
+            lightbox.offsetHeight;
+            lightbox.classList.add("active");
+            document.body.style.overflow = "hidden";
+        };
+
+        window.closeLightbox = function () {
+            const lightbox = document.getElementById("lightbox");
+            lightbox.classList.remove("active");
+            setTimeout(() => { lightbox.style.display = "none"; }, 300);
+            document.body.style.overflow = "auto";
+        };
+
+        window.navigateLightbox = function (direction) {
+            currentLightboxIndex = (currentLightboxIndex + direction + galleryImages.length) % galleryImages.length;
+            const img = document.getElementById("lightbox-img");
+            const counter = document.getElementById("lightbox-counter");
+            img.src = galleryImages[currentLightboxIndex];
+            counter.textContent = (currentLightboxIndex + 1) + " / " + galleryImages.length;
+        };
+
+        document.addEventListener("keydown", (e) => {
+            const lightbox = document.getElementById("lightbox");
+            if (!lightbox.classList.contains("active")) return;
+            if (e.key === "Escape") closeLightbox();
+            if (e.key === "ArrowLeft") navigateLightbox(-1);
+            if (e.key === "ArrowRight") navigateLightbox(1);
+        });
+
+        document.getElementById("lightbox").addEventListener("click", (e) => {
+            if (e.target.id === "lightbox") { closeLightbox(); }
+        });
+    })();
+</script>
+{% endif %} {% endblock %}

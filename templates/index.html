@@ -1,0 +1,218 @@
+{% extends 'base.html' %} {% load static %} {% block title %}COSMOS Media | Produtora de Fotografia e Vídeo{% endblock %} {% block extra_scripts_head %}
+<script src="{% static 'js/reveal.js' %}"></script>
+<script src="{% static 'js/counter.js' %}"></script>
+{% endblock %} {% block content %}
+<!-- ===== HERO ===== -->
+<section id="hero" class="relative h-screen w-full overflow-hidden">
+    <div class="absolute inset-0">
+        {% if hero and hero.hero_image %}
+        <img src="{{ hero.hero_image.url }}" alt="COSMOS Media Production" class="w-full h-full object-cover" />
+        {% else %}
+        <img src="{% static 'assets/hero.jpg' %}" alt="COSMOS Media Production" class="w-full h-full object-cover" />
+        {% endif %}
+        <div class="absolute inset-0 bg-foreground/60"></div>
+    </div>
+    <div class="relative z-10 h-full flex flex-col items-center justify-center container-padding text-center">
+        <p class="text-caption text-primary-foreground/80 mb-6" style="opacity: 1; transform: none">{% if hero %}{{ hero.subtitle }}{% else %}Produtora de Fotografia &amp; Vídeo{% endif %}</p>
+        <h1 class="text-display text-primary-foreground max-w-5xl" style="opacity: 1; transform: none">
+            {% if hero %}{{ hero.title_line1 }}
+            <span>{{ hero.title_highlight }}</span>
+            {% else %}CRIAMOS IMAGENS COM
+            <span>AUTORIDADE</span>
+            {% endif %}
+        </h1>
+        <p class="text-body text-primary-foreground/80 max-w-2xl mt-8" style="opacity: 1; transform: none">{% if hero %}{{ hero.description|linebreaksbr }}{% else %}Transformamos{% endif %}</p>
+        <div class="flex flex-col sm:flex-row gap-4 mt-12" style="opacity: 1; transform: none">
+            <a href="{% if hero %}{{ hero.cta_url }}{% else %}{{ settings.tally_form_url }}{% endif %}" class="btn-cosmos bg-primary-foreground text-foreground border border-primary-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary" target="_blank">{% if hero %}{{ hero.cta_text }}{% else %}Pedir Orçamento{% endif %}</a>
+        </div>
+    </div>
+    <button class="absolute bottom-10 left-1/2 -translate-x-1/2 text-primary-foreground/80 hover:text-primary-foreground transition-colors" aria-label="Scroll to next section" style="opacity: 1">
+        <div class="animate-bounce">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down">
+                <path d="m6 9 6 6 6-6"></path>
+            </svg>
+        </div>
+    </button>
+</section>
+
+<!-- ===== SOBRE NÓS ===== -->
+<section id="sobre-section" class="section-padding bg-background">
+    <div class="container-padding" id="sobre">
+        <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center reveal">
+            <div class="relative overflow-hidden" style="opacity: 1; transform: none">
+                {% if about and about.image %}
+                <img src="{{ about.image.url }}" alt="COSMOS Media Studio" class="w-full h-full object-cover" />
+                {% else %}
+                <img src="{% static 'assets/sobre_nos.jpg' %}" alt="COSMOS Media Studio" class="w-full h-full object-cover" />
+                {% endif %}
+            </div>
+            <div>
+                <p class="text-caption text-primary mb-4" style="opacity: 1; transform: none">{% if about %}{{ about.caption }}{% else %}Sobre Nós{% endif %}</p>
+                <h2 class="text-headline text-foreground mb-6" style="opacity: 1; transform: none">
+                    {% if about %}{{ about.title }}{% else %}Do frame ao legado.
+                    <br />
+                    Criamos autoridade.{% endif %}
+                </h2>
+                <p class="text-body text-muted-foreground mb-6" style="opacity: 1; transform: none">{% if about %}{{ about.description_1 }}{% endif %}</p>
+                <p class="text-body text-muted-foreground mb-10" style="opacity: 1; transform: none">{% if about %}{{ about.description_2 }}{% endif %}</p>
+                <div class="grid grid-cols-3 gap-8" style="opacity: 1; transform: none">
+                    <div class="text-center lg:text-left">
+                        <p class="text-3xl md:text-4xl font-semibold text-primary" data-count="{% if about %}{{ about.projects_count }}{% else %}100{% endif %}" data-suffix="{% if about %}{{ about.projects_suffix }}{% else %}+{% endif %}">{% if about %}{{ about.projects_count }}{{ about.projects_suffix }}{% else %}100+{% endif %}</p>
+                        <p class="text-sm text-muted-foreground mt-1">{% if about %}{{ about.projects_label }}{% else %}Projetos Entregues{% endif %}</p>
+                    </div>
+                    <div class="text-center lg:text-left">
+                        <p class="text-3xl md:text-4xl font-semibold text-primary" data-count="{% if about %}{{ about.clients_count }}{% else %}40{% endif %}" data-suffix="{% if about %}{{ about.clients_suffix }}{% else %}+{% endif %}">{% if about %}{{ about.clients_count }}{{ about.clients_suffix }}{% else %}40+{% endif %}</p>
+                        <p class="text-sm text-muted-foreground mt-1">{% if about %}{{ about.clients_label }}{% else %}Clientes Satisfeitos{% endif %}</p>
+                    </div>
+                    <div class="text-center lg:text-left">
+                        <p class="text-3xl md:text-4xl font-semibold text-primary" data-count="{% if about %}{{ about.years_count }}{% else %}6{% endif %}" data-suffix="{% if about %}{{ about.years_suffix }}{% else %}{% endif %}">{% if about %}{{ about.years_count }}{{ about.years_suffix }}{% else %}6{% endif %}</p>
+                        <p class="text-sm text-muted-foreground mt-1">{% if about %}{{ about.years_label }}{% else %}Anos de Experiência{% endif %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== SERVIÇOS ===== -->
+<section id="servicos-section" class="section-padding bg-secondary">
+    <div class="container-padding" id="servicos">
+        <div class="text-center max-w-3xl mx-auto mb-16 md:mb-24 reveal">
+            <p class="text-caption text-primary mb-4">O Que Fazemos</p>
+            <h2 class="text-headline text-foreground">Serviços pensados para a sua marca</h2>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 reveal delay-2">
+            {% for service in services %}
+            <div class="bg-background p-8 md:p-10" style="opacity: 1; transform: none">
+                {% if service.icon_svg %}{{ service.icon_svg|safe }}{% endif %}
+                <h3 class="text-title text-foreground mt-6 mb-4">{{ service.title }}</h3>
+                <p class="text-body text-muted-foreground">{{ service.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ===== PORTFÓLIO ===== -->
+<section id="portfolio-section" class="section-padding bg-background">
+    <div class="container-padding" id="portfolio">
+        <div class="text-center max-w-3xl mx-auto mb-16 md:mb-24 reveal">
+            <p class="text-caption text-primary mb-4">Portfólio</p>
+            <h2 class="text-headline text-foreground">Trabalhos que nos orgulham</h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6 md:gap-8 reveal delay-2">
+            {% for project in projects %}
+            <div class="portfolio-item aspect-video" style="opacity: 1; transform: none">
+                <a href="{% url 'core:portfolio_detail' project.slug %}">
+                    {% if project.teaser_image %}
+                    <img src="{{ project.teaser_image.url }}" alt="{{ project.get_category_label }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    {% endif %}
+                    <div class="portfolio-content p-6">
+                        {% if project.has_video %}
+                        <div class="w-16 h-16 rounded-full border-2 border-primary-foreground flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play">
+                                <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                            </svg>
+                        </div>
+                        {% endif %}
+                        <p class="text-caption text-primary-foreground/70 mb-2">{{ project.get_category_label }}</p>
+                        <h3 class="text-title text-primary-foreground">{{ project.title }}</h3>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-16" style="opacity: 1; transform: none">
+            <a href="{{ settings.tally_form_url }}" class="btn-cosmos-primary" target="_blank">Iniciar Projeto</a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== PARCEIROS ===== -->
+<section class="py-20 bg-foreground overflow-hidden">
+    <div class="container-padding mb-12">
+        <p class="text-caption text-primary-foreground/60 text-center" style="opacity: 1; transform: none">{{ settings.partners_caption }}</p>
+    </div>
+    <div class="relative" style="opacity: 1">
+        <div class="flex marquee">
+            {% for logo in client_logos %}
+            <div class="flex-shrink-0 px-12 md:px-16">
+                <img src="{{ logo.logo.url }}" alt="{{ logo.name }}" class="h-20 w-auto inline-block ml-4" />
+            </div>
+            {% endfor %}
+            <!-- Duplicate for seamless loop -->
+            {% for logo in client_logos %}
+            <div class="flex-shrink-0 px-12 md:px-16">
+                <img src="{{ logo.logo.url }}" alt="{{ logo.name }}" class="h-20 w-auto inline-block ml-4" />
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ===== TESTEMUNHOS ===== -->
+<section id="testemunhos-section" class="section-padding bg-secondary">
+    <div class="container-padding">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16 reveal">
+                <p class="text-caption text-primary mb-4" id="testemunhos">Testemunhos</p>
+                <h2 class="text-headline text-foreground">Eles viveram, Eles contam</h2>
+            </div>
+            <div class="relative reveal delay-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-quote text-primary/20 absolute -top-4 -left-2 md:-left-8">
+                    <path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path>
+                    <path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"></path>
+                </svg>
+                <div class="bg-background p-8 md:p-12 lg:p-16">
+                    <div style="opacity: 1; transform: none" id="testimonial-content">
+                        <p id="testimonial-text" class="text-xl md:text-md lg:text-lg font-light text-foreground leading-relaxed mb-8">"Message"</p>
+                        <div>
+                            <p id="testimonial-author" class="font-semibold text-foreground">Name</p>
+                            <p id="testimonial-role" class="text-sm text-muted-foreground mt-1">Role</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center gap-4 mt-8">
+                    <button id="testimonial-prev" class="p-3 border border-border hover:border-primary hover:text-primary transition-colors" aria-label="Previous testimonial">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m15 18-6-6 6-6"></path>
+                        </svg>
+                    </button>
+                    <div class="flex gap-2">
+                        {% for testimonial in testimonials %}
+                        <button class="w-2 h-2 rounded-full transition-all duration-300 {% if forloop.first %}bg-primary w-8{% else %}bg-border hover:bg-muted-foreground{% endif %}" aria-label="Go to testimonial {{ forloop.counter }}" data-index="{{ forloop.counter0 }}"></button>
+                        {% endfor %}
+                    </div>
+                    <button id="testimonial-next" class="p-3 border border-border hover:border-primary hover:text-primary transition-colors" aria-label="Next testimonial">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CONTACTO CTA ===== -->
+<section id="contacto" class="section-padding bg-primary">
+    <div class="container-padding">
+        <div class="max-w-6xl mx-auto text-center reveal">
+            <div>
+                <p class="text-caption text-primary-foreground/60 mb-4">Vamos Falar</p>
+                <h2 class="text-title text-primary-foreground mb-6" style="opacity: 1; transform: none">Estamos disponíveis para esclarecermos as tuas dúvidas e falar contigo sobre o teu próximo projeto.</h2>
+            </div>
+            <div>
+                <a href="{{ settings.tally_form_url }}" class="btn-cosmos bg-primary-foreground text-primary border border-primary-foreground hover:bg-primary hover:text-primary-foreground hover:border-primary-foreground" target="_blank">Desafia-nos</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} {% block extra_js %}
+<script>
+    window.djangoTestimonials = {{ testimonials_json|safe }};
+</script>
+<script src="{% static 'js/testimonial.js' %}"></script>
+<script src="{% static 'js/reveal.js' %}"></script>
+<script src="{% static 'js/counter.js' %}"></script>
+{% endblock %}
